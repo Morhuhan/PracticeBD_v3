@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Управление Типами Оборудования</title>
+    <link rel="stylesheet" type="text/css" href="css/form.css">
+
+    <!-- Глобальные переменные JS -->
+    <script th:inline="javascript">
+        var currentPage = 1;
+    </script>
+
+    <script th:inline="javascript" src="SubmitFormFunctions/Functions.js"></script>
+    <script th:inline="javascript" src="Utility/GeneralUtilites.js"></script>
+</head>
+<body>
+<header>
+    <img id = "img1" src="css/burger.png" class="toggle-submenu" onmouseover="toggleMenu('block')" onmouseout="toggleMenu('none')">
+
+
+    <!-- Выбор количества строк на странице -->
+    <div>
+        <label for="itemsPerPage">Строк на странице:</label>
+        <select id="itemsPerPage" onchange="UpdateNavigationPanel(); GetPageFromTable(currentPage);">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+            <option value="100" selected>100</option>
+        </select>
+    </div>
+</header>
+
+<div id="submenu" onmouseover="toggleMenu('block')" onmouseout="toggleMenu('none')">
+    <ul>
+        <li><a href="/allocation">Местпоположения</a></li>
+        <li><a href="/classroom">Классы</a></li>
+        <li><a href="/equipment">Оборудование</a></li>
+        <li><a href="/equipmentType">Типы оборудования</a></li>
+        <li><a href="/seat">Учебные места</a></li>
+        <li><a href="/service">Обслуживание</a></li>
+    </ul>
+</div>
+
+<div id="container1">
+    <div id="container2">
+        <div id="input">
+            <button type="button" onclick="ShowDeleteForm()">Удалить</button>
+            <button type="button" onclick="ShowEditForm()">Изменить</button>
+            <button type="button" onclick="ShowCreateForm()">Создать</button>
+        </div>
+
+        <div id="forms">
+            <!-- Форма создания для Тип Оборудования -->
+            <form id="createForm" onsubmit="SubmitCreateForm(event); return false;" method="post">
+                <h1>Создание Типа Оборудования</h1>
+                <label for="create_category">Категория:</label>
+                <input type="text" id="create_category" name="категория" placeholder="Введите категорию">
+
+                <label for="create_name">Наименование:</label>
+                <input type="text" id="create_name" name="наименование" placeholder="Введите наименование">
+
+                <label for="create_characteristic">Характеристика:</label>
+                <input type="text" id="create_characteristic" name="характеристика" placeholder="Введите характеристику">
+                <button type="submit">Отправить</button>
+            </form>
+
+            <!-- Форма изменения для Тип Оборудования -->
+            <form id="editForm" onsubmit="SubmitEditForm(event); return false;" method="post" style="display: none;">
+                <h1>Изменение Типа Оборудования</h1>
+                <label for="edit_category">Категория:</label>
+                <input type="text" id="edit_category" name="категория">
+
+                <label for="edit_name">Наименование:</label>
+                <input type="text" id="edit_name" name="наименование">
+
+                <label for="edit_characteristic">Характеристика:</label>
+                <input type="text" id="edit_characteristic" name="характеристика">
+                <button type="submit">Отправить</button>
+            </form>
+
+            <!-- Форма удаления для Тип Оборудования -->
+            <form id="deleteForm" onsubmit="SubmitDeleteForm(event); return false;" method="post" style="display: none;">
+                <h1>Удаление Типа Оборудования</h1>
+                <label for="delete_category">ID типа оборудования:</label>
+                <input type="text" id="delete_category" name="ид_типа_оборудования" placeholder="Введите ID типа оборудования для удаления">
+                <button type="submit">Отправить</button>
+            </form>
+
+        </div>
+    </div>
+
+    <div>
+        <!-- Место под панель навигации -->
+        <div id="navigationPanel"></div>
+
+        <table id="table" class="mainTable" name="Тип_оборудования">
+            <thead>
+            <tr>
+                <th name="ид_типа_оборудования">ID типа оборудования</th>
+                <th name="категория">Категория</th>
+                <th name="наименование">Наименование</th>
+                <th name="характеристика">Характеристика</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Здесь будет динамически заполняться таблица -->
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

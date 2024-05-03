@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Управление Классами</title>
+    <link rel="stylesheet" type="text/css" href="css/form.css">
+
+    <!-- Глобальные переменные JS -->
+    <script th:inline="javascript">
+        var currentPage = 1;
+    </script>
+
+    <script th:inline="javascript" src="SubmitFormFunctions/Functions.js"></script>
+    <script th:inline="javascript" src="Utility/GeneralUtilites.js"></script>
+</head>
+<body>
+<header>
+    <img id = "img1" src="css/burger.png" class="toggle-submenu" onmouseover="toggleMenu('block')" onmouseout="toggleMenu('none')">
+
+
+    <!-- Выбор количества строк на странице -->
+    <div>
+        <label for="itemsPerPage">Строк на странице:</label>
+        <select id="itemsPerPage" onchange="UpdateNavigationPanel(); GetPageFromTable(currentPage);">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+            <option value="100" selected>100</option>
+        </select>
+    </div>
+</header>
+
+<div id="submenu" onmouseover="toggleMenu('block')" onmouseout="toggleMenu('none')">
+    <ul>
+        <li><a href="/allocation">Местпоположения</a></li>
+        <li><a href="/classroom">Классы</a></li>
+        <li><a href="/equipment">Оборудование</a></li>
+        <li><a href="/equipmentType">Типы оборудования</a></li>
+        <li><a href="/seat">Учебные места</a></li>
+        <li><a href="/service">Обслуживание</a></li>
+    </ul>
+</div>
+
+<div id="container1">
+    <div id="container2">
+        <div id="input">
+            <button type="button" onclick="ShowDeleteForm()">Удалить</button>
+            <button type="button" onclick="ShowEditForm()">Изменить</button>
+            <button type="button" onclick="ShowCreateForm()">Создать</button>
+        </div>
+
+        <div id="forms">
+            <!-- Форма создания для Класс -->
+            <form id="createForm" onsubmit="SubmitCreateForm(event); return false;" method="post">
+                <h1>Создание Класса</h1>
+                <label for="create_locationId">ID местоположения:</label>
+                <input type="text" id="create_locationId"
+                       name="ид_местоположения"
+                       placeholder="Введите ID местоположения"
+                       data-source="Местоположение"
+                       data-columns-order="ид_местоположения, префикс_улицы, улица, дом, помещение"
+                       autocomplete="off"
+                       readonly>
+
+                <label for="create_currentSeats">Текущее количество мест:</label>
+                <input type="text" id="create_currentSeats" name="текущее_количество_мест" placeholder="Введите текущее количество мест">
+
+                <label for="create_maxSeats">Максимальное количество мест:</label>
+                <input type="text" id="create_maxSeats" name="максимальное_количество_мест" placeholder="Введите максимальное количество мест">
+
+                <label for="create_department">Кафедра:</label>
+                <input type="text" id="create_department" name="кафедра" placeholder="Введите кафедру">
+
+                <label for="create_note">Примечание:</label>
+                <input type="text" id="create_note" name="примечание" placeholder="Введите примечание">
+                <button type="submit">Отправить</button>
+            </form>
+
+            <!-- Форма изменения для Класс -->
+            <form id="editForm" onsubmit="SubmitEditForm(event); return false;" method="post" style="display: none;">
+                <h1>Изменение Класса</h1>
+                <label for="edit_locationId">ID местоположения:</label>
+                <input type="text" id="edit_locationId" name="ид_местоположения"
+                       placeholder="Введите ID местоположения"
+                       data-source="Местоположение"
+                       data-columns-order="ид_местоположения, префикс_улицы, улица, дом, помещение"
+                       autocomplete="off"
+                       readonly>
+
+                <label for="edit_currentSeats">Текущее количество мест:</label>
+                <input type="text" id="edit_currentSeats" name="текущее_количество_мест">
+
+                <label for="edit_maxSeats">Максимальное количество мест:</label>
+                <input type="text" id="edit_maxSeats" name="максимальное_количество_мест">
+
+                <label for="edit_department">Кафедра:</label>
+                <input type="text" id="edit_department" name="кафедра">
+
+                <label for="edit_note">Примечание:</label>
+                <input type="text" id="edit_note" name="примечание" placeholder="Введите примечание">
+
+                <button type="submit">Отправить</button>
+            </form>
+
+            <!-- Форма удаления для Класс -->
+            <form id="deleteForm" onsubmit="SubmitDeleteForm(event); return false;" method="post" style="display: none;">
+                <h1>Удаление Класса</h1>
+                <label for="delete_classroomId">ID класса:</label>
+                <input type="text" id="delete_classroomId" name="ид_класса" placeholder="Введите ID класса для удаления">
+                <button type="submit">Отправить</button>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <!-- Место под панель навигации -->
+        <div id="navigationPanel"></div>
+
+        <table id="table" class="mainTable" name="Класс">
+            <thead>
+            <tr>
+                <th name="ид_класса">ID класса</th>
+
+                <th name="ид_местоположения"
+                    data-expanded-source="Местоположение"
+                    data-expended-columns="ид_местоположения, префикс_улицы, улица, дом, помещение"
+                    data-expanded-prefix="ИД: * *, *, *, *">
+                    Местоположение
+                </th>
+
+                <th name="текущ_количество_мест">Текущее количество мест</th>
+                <th name="макс_количество_мест">Максимальное количество мест</th>
+                <th name="кафедра">Кафедра</th>
+                <th name="примечание">Примечание</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Здесь будет динамически заполняться таблица -->
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

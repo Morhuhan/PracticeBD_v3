@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Управление Учебными Местами</title>
+    <link rel="stylesheet" type="text/css" href="css/form.css">
+
+    <!-- Глобальные переменные JS -->
+    <script th:inline="javascript">
+        var currentPage = 1;
+    </script>
+
+    <script th:inline="javascript" src="SubmitFormFunctions/Functions.js"></script>
+    <script th:inline="javascript" src="Utility/GeneralUtilites.js"></script>
+</head>
+<body>
+<header>
+    <img id = "img1" src="css/burger.png" class="toggle-submenu" onmouseover="toggleMenu('block')" onmouseout="toggleMenu('none')">
+
+
+    <!-- Выбор количества строк на странице -->
+    <div>
+        <label for="itemsPerPage">Строк на странице:</label>
+        <select id="itemsPerPage" onchange="UpdateNavigationPanel(); GetPageFromTable(currentPage);">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+            <option value="100" selected>100</option>
+        </select>
+    </div>
+</header>
+
+<div id="submenu" onmouseover="toggleMenu('block')" onmouseout="toggleMenu('none')">
+    <ul>
+        <li><a href="/allocation">Местпоположения</a></li>
+        <li><a href="/classroom">Классы</a></li>
+        <li><a href="/equipment">Оборудование</a></li>
+        <li><a href="/equipmentType">Типы оборудования</a></li>
+        <li><a href="/seat">Учебные места</a></li>
+        <li><a href="/service">Обслуживание</a></li>
+    </ul>
+</div>
+
+<div id="container1">
+    <div id="container2">
+        <div id="input">
+            <button type="button" onclick="ShowDeleteForm()">Удалить</button>
+            <button type="button" onclick="ShowEditForm()">Изменить</button>
+            <button type="button" onclick="ShowCreateForm()">Создать</button>
+        </div>
+
+        <div id="forms">
+            <!-- Форма создания для Учебное Место -->
+            <form id="createForm" onsubmit="SubmitCreateForm(event); return false;" method="post">
+                <h1>Создание Учебного Места</h1>
+                <label for="create_classId">ID класса:</label>
+                <input type="text" id="create_classId" name="ид_класса" placeholder="Введите ID класса"
+                       data-source="Класс"
+                       data-columns-order="ид_класса, текущ_количество_мест, макс_количество_мест, кафедра, примечание"
+                       autocomplete="off"
+                       readonly>
+
+                <label for="create_educationalPlaceNumber">Номер учебного места:</label>
+                <input type="text" id="create_educationalPlaceNumber" name="номер_учебного_места" placeholder="Введите номер учебного места">
+
+                <label for="create_workstationName">Имя рабочей станции:</label>
+                <input type="text" id="create_workstationName" name="имя_рабочей_станции" placeholder="Введите имя рабочей станции">
+
+                <label for="create_ipAddress">IP-адрес:</label>
+                <input type="text" id="create_ipAddress" name="ip_адрес" placeholder="Введите IP-адрес">
+
+                <label for="create_note">Примечание:</label>
+                <input type="text" id="create_note" name="примечание" placeholder="Введите примечание">
+                <button type="submit">Отправить</button>
+            </form>
+
+            <!-- Форма изменения для Учебное Место -->
+            <form id="editForm" onsubmit="SubmitEditForm(event); return false;" method="post" style="display: none;">
+                <h1>Изменение Учебного Места</h1>
+                <label for="edit_classId">ID класса:</label>
+                <input type="text" id="edit_classId" name="ид_класса"
+                       data-source="Класс"
+                       data-columns-order="ид_класса, текущ_количество_мест, макс_количество_мест, кафедра, примечание"
+                       autocomplete="off"
+                       readonly>
+
+                <label for="edit_educationalPlaceNumber">Номер учебного места:</label>
+                <input type="text" id="edit_educationalPlaceNumber" name="номер_учебного_места">
+
+                <label for="edit_workstationName">Имя рабочей станции:</label>
+                <input type="text" id="edit_workstationName" name="имя_рабочей_станции">
+
+                <label for="edit_ipAddress">IP-адрес:</label>
+                <input type="text" id="edit_ipAddress" name="ip_адрес">
+
+                <label for="edit_note">Примечание:</label>
+                <input type="text" id="edit_note" name="примечание">
+                <button type="submit">Отправить</button>
+            </form>
+
+            <!-- Форма удаления для Учебное Место -->
+            <form id="deleteForm" onsubmit="SubmitDeleteForm(event); return false;" method="post" style="display: none;">
+                <h1>Удаление Учебного Места</h1>
+                <label for="delete_classId">ID класса:</label>
+                <input type="text" id="delete_classId" name="ид_класса" placeholder="Введите ID класса для удаления"
+                       data-source="Класс"
+                       data-columns-order="ид_класса, текущ_количество_мест, макс_количество_мест, кафедра, примечание"
+                       autocomplete="off"
+                       readonly>
+
+                <label for="delete_educationalPlaceNumber">Номер учебного места:</label>
+                <input type="text" id="delete_educationalPlaceNumber" name="номер_учебного_места" placeholder="Введите номер учебного места для удаления">
+
+                <button type="submit">Отправить</button>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <!-- Место под панель навигации -->
+        <div id="navigationPanel"></div>
+
+        <table id="table" class="mainTable" name="Учебное_место">
+            <thead>
+            <tr>
+                <th name="ид_учебного_места">ID</th>
+
+                <th name="ид_класса"
+                    data-expanded-source="Класс"
+                    data-expended-columns="ид_класса, текущ_количество_мест, макс_количество_мест, кафедра"
+                    data-expanded-prefix="ИД: *$Мест занято: *$Мест всего: *$Кафедра: *">
+                    Класс
+                </th>
+
+                <th name="номер_учебного_места">Номер учебного места</th>
+                <th name="имя_рабочей_станции">Имя рабочей станции</th>
+                <th name="ip_адрес">IP-адрес</th>
+                <th name="примечание">Примечание</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Здесь будет динамически заполняться таблица -->
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

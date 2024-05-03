@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Управление Местоположениями</title>
+    <link rel="stylesheet" type="text/css" href="css/form.css">
+
+    <!-- Глобальные переменные JS -->
+    <script th:inline="javascript">
+        var currentPage = 1;
+    </script>
+
+    <script th:inline="javascript" src="SubmitFormFunctions/Functions.js"></script>
+    <script th:inline="javascript" src="Utility/GeneralUtilites.js"></script>
+</head>
+<body>
+<header>
+    <img id = "img1" src="css/burger.png" class="toggle-submenu" onmouseover="toggleMenu('block')" onmouseout="toggleMenu('none')">
+
+
+    <!-- Выбор количества строк на странице -->
+    <div>
+        <label for="itemsPerPage">Строк на странице:</label>
+        <select id="itemsPerPage" onchange="UpdateNavigationPanel(); GetPageFromTable(currentPage);">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+            <option value="100" selected>100</option>
+        </select>
+    </div>
+</header>
+
+<div id="submenu" onmouseover="toggleMenu('block')" onmouseout="toggleMenu('none')">
+    <ul>
+        <li><a href="/allocation">Местпоположения</a></li>
+        <li><a href="/classroom">Классы</a></li>
+        <li><a href="/equipment">Оборудование</a></li>
+        <li><a href="/equipmentType">Типы оборудования</a></li>
+        <li><a href="/seat">Учебные места</a></li>
+        <li><a href="/service">Обслуживание</a></li>
+    </ul>
+</div>
+
+<div id="container1">
+    <div id="container2">
+        <div id="input">
+            <button type="button" onclick="ShowDeleteForm()">Удалить</button>
+            <button type="button" onclick="ShowEditForm()">Изменить</button>
+            <button type="button" onclick="ShowCreateForm()">Создать</button>
+        </div>
+
+        <div id="forms">
+            <!-- Форма создания для Местоположение -->
+            <form id="createForm" onsubmit="SubmitCreateForm(event); return false;" method="post">
+                <h1>Создание Местоположения</h1>
+                <label for="create_streetPrefix">Префикс улицы:</label>
+                <input type="text" id="create_streetPrefix" name="префикс_улицы" placeholder="Введите префикс улицы">
+
+                <label for="create_street">Улица:</label>
+                <input type="text" id="create_street" name="улица" placeholder="Введите улицу">
+
+                <label for="create_house">Дом:</label>
+                <input type="text" id="create_house" name="дом" placeholder="Введите номер дома">
+
+                <label for="create_room">Помещение:</label>
+                <input type="text" id="create_room" name="помещение" placeholder="Введите помещение">
+
+                <label for="create_phoneNumber">Номер телефона:</label>
+                <input type="text" id="create_phoneNumber" name="номер_телефона" placeholder="Введите номер телефона">
+                <button type="submit">Отправить</button>
+            </form>
+
+            <!-- Форма изменения для Местоположение -->
+            <form id="editForm" onsubmit="SubmitEditForm(event); return false;" method="post" style="display: none;">
+                <h1>Изменение Местоположения</h1>
+                <label for="edit_streetPrefix">Префикс улицы:</label>
+                <input type="text" id="edit_streetPrefix" name="префикс_улицы">
+
+                <label for="edit_street">Улица:</label>
+                <input type="text" id="edit_street" name="улица">
+
+                <label for="edit_house">Дом:</label>
+                <input type="text" id="edit_house" name="дом">
+
+                <label for="edit_room">Помещение:</label>
+                <input type="text" id="edit_room" name="помещение">
+
+                <label for="edit_phoneNumber">Номер телефона:</label>
+                <input type="text" id="edit_phoneNumber" name="номер_телефона">
+                <button type="submit">Отправить</button>
+            </form>
+
+            <!-- Форма удаления для Местоположение -->
+            <form id="deleteForm" onsubmit="SubmitDeleteForm(event); return false;" method="post" style="display: none;">
+                <h1>Удаление Местоположения</h1>
+                <label for="delete_allocationID">ID местоположения</label>
+                <input type="text" id="delete_allocationID" name="ид_местоположения" placeholder="Введите префикс улицы для удаления">
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <!-- Место под панель навигации -->
+        <div id="navigationPanel"></div>
+
+        <table id="table" class="mainTable" name="Местоположение">
+            <thead>
+            <tr>
+                <th name="ид_местоположения">ID</th>
+                <th name="префикс_улицы">Префикс улицы</th>
+                <th name="улица">Улица</th>
+                <th name="дом">Дом</th>
+                <th name="помещение">Помещение</th>
+                <th name="номер_телефона">Номер телефона</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Здесь будет динамически заполняться таблица -->
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>

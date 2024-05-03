@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Управление Оборудованием</title>
+    <link rel="stylesheet" type="text/css" href="css/form.css">
+
+    <!-- Глобальные переменные JS -->
+    <script th:inline="javascript">
+        var currentPage = 1;
+    </script>
+
+    <script th:inline="javascript" src="SubmitFormFunctions/Functions.js"></script>
+    <script th:inline="javascript" src="Utility/GeneralUtilites.js"></script>
+</head>
+<body>
+<header>
+    <img id = "img1" src="css/burger.png" class="toggle-submenu" onmouseover="toggleMenu('block')" onmouseout="toggleMenu('none')">
+
+
+    <!-- Выбор количества строк на странице -->
+    <div>
+        <label for="itemsPerPage">Строк на странице:</label>
+        <select id="itemsPerPage" onchange="UpdateNavigationPanel(); GetPageFromTable(currentPage);">
+            <option value="5">5</option>
+            <option value="10">10</option>
+            <option value="15">15</option>
+            <option value="20">20</option>
+            <option value="100" selected>100</option>
+        </select>
+    </div>
+</header>
+
+<div id="submenu" onmouseover="toggleMenu('block')" onmouseout="toggleMenu('none')">
+    <ul>
+        <li><a href="/allocation">Местпоположения</a></li>
+        <li><a href="/classroom">Классы</a></li>
+        <li><a href="/equipment">Оборудование</a></li>
+        <li><a href="/equipmentType">Типы оборудования</a></li>
+        <li><a href="/seat">Учебные места</a></li>
+        <li><a href="/service">Обслуживание</a></li>
+    </ul>
+</div>
+
+<div id="container1">
+    <div id="container2">
+        <div id="input">
+            <button type="button" onclick="ShowDeleteForm()">Удалить</button>
+            <button type="button" onclick="ShowEditForm()">Изменить</button>
+            <button type="button" onclick="ShowCreateForm()">Создать</button>
+        </div>
+
+        <div id="forms">
+            <!-- Форма создания для Оборудование -->
+            <form id="createForm" onsubmit="SubmitCreateForm(event); return false;" method="post">
+                <h1>Создание Оборудования</h1>
+                <label for="create_typeId">ID типа оборудования:</label>
+                <input type="text" id="create_typeId" name="ид_типа_оборудования"
+                       placeholder="Введите ID типа оборудования"
+                       data-source="Тип_оборудования"
+                       data-columns-order="ид_типа_оборудования, категория, наименование, характеристика"
+                       autocomplete="off"
+                       readonly>
+
+                <label for="create_inventoryNumber">Инвентарный номер:</label>
+                <input type="text" id="create_inventoryNumber" name="инвентарный_номер" placeholder="Введите инвентарный номер">
+
+                <label for="create_condition">Признак исправности:</label>
+                <input type="text" id="create_condition" name="признак_исправности" placeholder="Введите признак исправности">
+
+                <label for="create_note">Примечание:</label>
+                <input type="text" id="create_note" name="примечание" placeholder="Введите примечание">
+                <button type="submit">Отправить</button>
+            </form>
+
+            <!-- Форма изменения для Оборудование -->
+            <form id="editForm" onsubmit="SubmitEditForm(event); return false;" method="post" style="display: none;">
+                <h1>Изменение Оборудования</h1>
+                <label for="edit_typeId">ID типа оборудования:</label>
+                <input type="text" id="edit_typeId" name="ид_типа_оборудования"
+                       placeholder="Введите ID типа оборудования"
+                       data-source="Тип_оборудования"
+                       data-columns-order="ид_типа_оборудования, категория, наименование, характеристика"
+                       autocomplete="off"
+                       readonly>
+
+                <label for="edit_inventoryNumber">Инвентарный номер:</label>
+                <input type="text" id="edit_inventoryNumber" name="инвентарный_номер">
+
+                <label for="edit_condition">Признак исправности:</label>
+                <input type="text" id="edit_condition" name="признак_исправности">
+
+                <label for="edit_note">Примечание:</label>
+                <input type="text" id="edit_note" name="примечание">
+                <button type="submit">Отправить</button>
+            </form>
+
+            <!-- Форма удаления для Оборудование -->
+            <form id="deleteForm" onsubmit="SubmitDeleteForm(event); return false;" method="post" style="display: none;">
+                <h1>Удаление Оборудования</h1>
+                <label for="delete_equipmentID">ID оборудования:</label>
+                <input type="text" id="delete_equipmentID" name="ид_оборудования" placeholder="Введите ID оборудования для удаления">
+                <button type="submit">Отправить</button>
+            </form>
+        </div>
+    </div>
+
+    <div>
+        <!-- Место под панель навигации -->
+        <div id="navigationPanel"></div>
+
+        <table id="table" class="mainTable" name="Оборудование">
+            <thead>
+            <tr>
+                <th name="ид_оборудования">ID оборудования</th>
+
+                <th name="ид_типа_оборудования"
+                    data-expanded-source="Тип_оборудования"
+                    data-expended-columns="ид_типа_оборудования, категория, наименование, характеристика"
+                    data-expanded-prefix="ID: *, *, *, *">
+                    Тип оборудования
+                </th>
+
+                <th name="инвентарный_номер">Инвентарный номер</th>
+                <th name="признак_исправности">Признак исправности</th>
+                <th name="примечание">Примечание</th>
+            </tr>
+            </thead>
+            <tbody>
+            <!-- Здесь будет динамически заполняться таблица -->
+            </tbody>
+        </table>
+    </div>
+</div>
+</body>
+</html>
