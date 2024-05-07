@@ -52,8 +52,8 @@
         <div id="forms">
             <!-- Форма создания для Обслуживание -->
             <form id="createForm" onsubmit="SubmitCreateForm(event); return false;" method="post">
-                <h1>Создание Записи Обслуживания</h1>
-                <label for="create_educationalPlaceId">ID учебного места:</label>
+                <h1>Создание Обслуживания</h1>
+                <label for="create_educationalPlaceId">Учебное место:</label>
                 <input type="text" id="create_educationalPlaceId" name="ид_учебного_места"
                        placeholder="Введите ID учебного места"
                        data-source="Учебное_место"
@@ -61,7 +61,7 @@
                        autocomplete="off"
                        readonly>
 
-                <label for="create_equipmentId">ID оборудования:</label>
+                <label for="create_equipmentId">Оборудование:</label>
                 <input type="text" id="create_equipmentId" name="ид_оборудования"
                        placeholder="Введите ID оборудования"
                        data-source="Оборудование"
@@ -79,8 +79,8 @@
 
             <!-- Форма изменения для Обслуживание -->
             <form id="editForm" onsubmit="SubmitEditForm(event); return false;" method="post" style="display: none;">
-                <h1>Изменение Записи Обслуживания</h1>
-                <label for="edit_educationalPlaceId">ID учебного места:</label>
+                <h1>Изменение Обслуживания</h1>
+                <label for="edit_educationalPlaceId">Учебное место:</label>
                 <input type="text" id="edit_educationalPlaceId" name="ид_учебного_места"
                        placeholder="Введите ID учебного места"
                        data-source="Учебное_место"
@@ -88,7 +88,7 @@
                        autocomplete="off"
                        readonly>
 
-                <label for="edit_equipmentId">ID оборудования:</label>
+                <label for="edit_equipmentId">Оборудование:</label>
                 <input type="text" id="edit_equipmentId" name="ид_оборудования"
                        placeholder="Введите ID оборудования"
                        data-source="Оборудование"
@@ -106,7 +106,7 @@
 
             <!-- Форма удаления для Обслуживание -->
             <form id="deleteForm" onsubmit="SubmitDeleteForm(event); return false;" method="post" style="display: none;">
-                <h1>Удаление Записи Обслуживания</h1>
+                <h1>Удаление Обслуживания</h1>
                 <label for="delete_serviceForm">ID обслужиавания:</label>
                 <input type="text" id="delete_serviceForm" name="ид_обслуживания" placeholder="Введите ID обслужиавания для удаления">
                 <button type="submit">Отправить</button>

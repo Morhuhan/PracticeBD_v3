@@ -74,6 +74,9 @@
             <!-- Форма изменения для Местоположение -->
             <form id="editForm" onsubmit="SubmitEditForm(event); return false;" method="post" style="display: none;">
                 <h1>Изменение Местоположения</h1>
+                <label for="edit_AllocationId">ID местоположения:</label>
+                <input type="text" id="edit_AllocationId" name="ид_местоположения">
+
                 <label for="edit_streetPrefix">Префикс улицы:</label>
                 <input type="text" id="edit_streetPrefix" name="префикс_улицы">
 
@@ -94,8 +97,13 @@
             <!-- Форма удаления для Местоположение -->
             <form id="deleteForm" onsubmit="SubmitDeleteForm(event); return false;" method="post" style="display: none;">
                 <h1>Удаление Местоположения</h1>
-                <label for="delete_allocationID">ID местоположения</label>
-                <input type="text" id="delete_allocationID" name="ид_местоположения" placeholder="Введите префикс улицы для удаления">
+                <label for="delete_AllocationId">ID местоположения:</label>
+                <input type="text" id="delete_AllocationId" name="ид_местоположения" placeholder="Введите ID местоположения для удаления"
+                       data-source="Местоположение"
+                       data-columns-order="ид_местоположения, префикс_улицы, улица, дом, помещение, номер_телефона"
+                       autocomplete="off"
+                       readonly>
+                <button type="submit">Отправить</button>
             </form>
         </div>
     </div>

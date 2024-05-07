@@ -54,7 +54,7 @@
             <!-- Форма создания для Оборудование -->
             <form id="createForm" onsubmit="SubmitCreateForm(event); return false;" method="post">
                 <h1>Создание Оборудования</h1>
-                <label for="create_typeId">ID типа оборудования:</label>
+                <label for="create_typeId">Тип оборудования:</label>
                 <input type="text" id="create_typeId" name="ид_типа_оборудования"
                        placeholder="Введите ID типа оборудования"
                        data-source="Тип_оборудования"
@@ -76,7 +76,11 @@
             <!-- Форма изменения для Оборудование -->
             <form id="editForm" onsubmit="SubmitEditForm(event); return false;" method="post" style="display: none;">
                 <h1>Изменение Оборудования</h1>
-                <label for="edit_typeId">ID типа оборудования:</label>
+
+                <label for="edit_equipmentID">ID оборудования:</label>
+                <input type="text" id="edit_equipmentID" name="инвентарный_номер">
+
+                <label for="edit_typeId">Тип оборудования:</label>
                 <input type="text" id="edit_typeId" name="ид_типа_оборудования"
                        placeholder="Введите ID типа оборудования"
                        data-source="Тип_оборудования"

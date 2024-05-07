@@ -54,7 +54,7 @@
             <!-- Форма создания для Класс -->
             <form id="createForm" onsubmit="SubmitCreateForm(event); return false;" method="post">
                 <h1>Создание Класса</h1>
-                <label for="create_locationId">ID местоположения:</label>
+                <label for="create_locationId">Местоположение:</label>
                 <input type="text" id="create_locationId"
                        name="ид_местоположения"
                        placeholder="Введите ID местоположения"
@@ -64,10 +64,10 @@
                        readonly>
 
                 <label for="create_currentSeats">Текущее количество мест:</label>
-                <input type="text" id="create_currentSeats" name="текущее_количество_мест" placeholder="Введите текущее количество мест">
+                <input type="text" id="create_currentSeats" name="текущ_количество_мест" placeholder="Введите текущее количество мест">
 
                 <label for="create_maxSeats">Максимальное количество мест:</label>
-                <input type="text" id="create_maxSeats" name="максимальное_количество_мест" placeholder="Введите максимальное количество мест">
+                <input type="text" id="create_maxSeats" name="макс_количество_мест" placeholder="Введите максимальное количество мест">
 
                 <label for="create_department">Кафедра:</label>
                 <input type="text" id="create_department" name="кафедра" placeholder="Введите кафедру">
@@ -80,7 +80,10 @@
             <!-- Форма изменения для Класс -->
             <form id="editForm" onsubmit="SubmitEditForm(event); return false;" method="post" style="display: none;">
                 <h1>Изменение Класса</h1>
-                <label for="edit_locationId">ID местоположения:</label>
+                <label for="edit_classroomID">ID класса:</label>
+                <input type="text" id="edit_classroomID" name="ид_класса">
+
+                <label for="edit_locationId">Местоположение:</label>
                 <input type="text" id="edit_locationId" name="ид_местоположения"
                        placeholder="Введите ID местоположения"
                        data-source="Местоположение"
@@ -89,10 +92,10 @@
                        readonly>
 
                 <label for="edit_currentSeats">Текущее количество мест:</label>
-                <input type="text" id="edit_currentSeats" name="текущее_количество_мест">
+                <input type="text" id="edit_currentSeats" name="текущ_количество_мест">
 
                 <label for="edit_maxSeats">Максимальное количество мест:</label>
-                <input type="text" id="edit_maxSeats" name="максимальное_количество_мест">
+                <input type="text" id="edit_maxSeats" name="макс_количество_мест">
 
                 <label for="edit_department">Кафедра:</label>
                 <input type="text" id="edit_department" name="кафедра">
