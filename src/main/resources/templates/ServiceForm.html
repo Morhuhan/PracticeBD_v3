@@ -20,7 +20,7 @@
     <!-- Выбор количества строк на странице -->
     <div>
         <label for="itemsPerPage">Строк на странице:</label>
-        <select id="itemsPerPage" onchange="UpdateNavigationPanel(); GetPageFromTable(currentPage);">
+        <select id="itemsPerPage" onchange="UpdateNavigationPanel(); GetPageFromTable(1);">
             <option value="5">5</option>
             <option value="10">10</option>
             <option value="15">15</option>
@@ -55,7 +55,6 @@
                 <h1>Создание Обслуживания</h1>
                 <label for="create_educationalPlaceId">Учебное место:</label>
                 <input type="text" id="create_educationalPlaceId" name="ид_учебного_места"
-                       placeholder="Введите ID учебного места"
                        data-source="Учебное_место"
                        data-columns-order="ид_учебного_места, ид_класса, номер_учебного_места,  имя_рабочей_станции,  ip_адрес, примечание"
                        autocomplete="off"
@@ -63,7 +62,6 @@
 
                 <label for="create_equipmentId">Оборудование:</label>
                 <input type="text" id="create_equipmentId" name="ид_оборудования"
-                       placeholder="Введите ID оборудования"
                        data-source="Оборудование"
                        data-columns-order="ид_оборудования, ид_типа_оборудования, инвентарный_номер, признак_исправности, примечание"
                        autocomplete="off"
@@ -80,21 +78,8 @@
             <!-- Форма изменения для Обслуживание -->
             <form id="editForm" onsubmit="SubmitEditForm(event); return false;" method="post" style="display: none;">
                 <h1>Изменение Обслуживания</h1>
-                <label for="edit_educationalPlaceId">Учебное место:</label>
-                <input type="text" id="edit_educationalPlaceId" name="ид_учебного_места"
-                       placeholder="Введите ID учебного места"
-                       data-source="Учебное_место"
-                       data-columns-order="ид_учебного_места, ид_класса, номер_учебного_места,  имя_рабочей_станции,  ip_адрес, примечание"
-                       autocomplete="off"
-                       readonly>
-
-                <label for="edit_equipmentId">Оборудование:</label>
-                <input type="text" id="edit_equipmentId" name="ид_оборудования"
-                       placeholder="Введите ID оборудования"
-                       data-source="Оборудование"
-                       data-columns-order="ид_оборудования, ид_типа_оборудования, инвентарный_номер, признак_исправности, примечание"
-                       autocomplete="off"
-                       readonly>
+                <label for="edit_serviceForm">ID обслужиавания:</label>
+                <input type="text" id="edit_serviceForm" name="ид_обслуживания">
 
                 <label for="edit_installationDate">Дата установки:</label>
                 <input type="date" id="edit_installationDate" name="дата_установки">
@@ -108,7 +93,7 @@
             <form id="deleteForm" onsubmit="SubmitDeleteForm(event); return false;" method="post" style="display: none;">
                 <h1>Удаление Обслуживания</h1>
                 <label for="delete_serviceForm">ID обслужиавания:</label>
-                <input type="text" id="delete_serviceForm" name="ид_обслуживания" placeholder="Введите ID обслужиавания для удаления">
+                <input type="text" id="delete_serviceForm" name="ид_обслуживания">
                 <button type="submit">Отправить</button>
             </form>
         </div>

@@ -21,7 +21,7 @@
     <!-- Выбор количества строк на странице -->
     <div>
         <label for="itemsPerPage">Строк на странице:</label>
-        <select id="itemsPerPage" onchange="UpdateNavigationPanel(); GetPageFromTable(currentPage);">
+        <select id="itemsPerPage" onchange="UpdateNavigationPanel(); GetPageFromTable(1);">
             <option value="5">5</option>
             <option value="10">10</option>
             <option value="15">15</option>
@@ -56,20 +56,19 @@
                 <h1>Создание Оборудования</h1>
                 <label for="create_typeId">Тип оборудования:</label>
                 <input type="text" id="create_typeId" name="ид_типа_оборудования"
-                       placeholder="Введите ID типа оборудования"
                        data-source="Тип_оборудования"
                        data-columns-order="ид_типа_оборудования, категория, наименование, характеристика"
                        autocomplete="off"
                        readonly>
 
                 <label for="create_inventoryNumber">Инвентарный номер:</label>
-                <input type="text" id="create_inventoryNumber" name="инвентарный_номер" placeholder="Введите инвентарный номер">
+                <input type="text" id="create_inventoryNumber" name="инвентарный_номер" >
 
                 <label for="create_condition">Признак исправности:</label>
-                <input type="text" id="create_condition" name="признак_исправности" placeholder="Введите признак исправности">
+                <input type="text" id="create_condition" name="признак_исправности" >
 
                 <label for="create_note">Примечание:</label>
-                <input type="text" id="create_note" name="примечание" placeholder="Введите примечание">
+                <input type="text" id="create_note" name="примечание" >
                 <button type="submit">Отправить</button>
             </form>
 
@@ -82,7 +81,6 @@
 
                 <label for="edit_typeId">Тип оборудования:</label>
                 <input type="text" id="edit_typeId" name="ид_типа_оборудования"
-                       placeholder="Введите ID типа оборудования"
                        data-source="Тип_оборудования"
                        data-columns-order="ид_типа_оборудования, категория, наименование, характеристика"
                        autocomplete="off"
@@ -103,7 +101,7 @@
             <form id="deleteForm" onsubmit="SubmitDeleteForm(event); return false;" method="post" style="display: none;">
                 <h1>Удаление Оборудования</h1>
                 <label for="delete_equipmentID">ID оборудования:</label>
-                <input type="text" id="delete_equipmentID" name="ид_оборудования" placeholder="Введите ID оборудования для удаления">
+                <input type="text" id="delete_equipmentID" name="ид_оборудования" >
                 <button type="submit">Отправить</button>
             </form>
         </div>

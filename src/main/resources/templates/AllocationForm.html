@@ -21,7 +21,7 @@
     <!-- Выбор количества строк на странице -->
     <div>
         <label for="itemsPerPage">Строк на странице:</label>
-        <select id="itemsPerPage" onchange="UpdateNavigationPanel(); GetPageFromTable(currentPage);">
+        <select id="itemsPerPage" onchange="UpdateNavigationPanel(); GetPageFromTable(1);">
             <option value="5">5</option>
             <option value="10">10</option>
             <option value="15">15</option>
@@ -55,19 +55,19 @@
             <form id="createForm" onsubmit="SubmitCreateForm(event); return false;" method="post">
                 <h1>Создание Местоположения</h1>
                 <label for="create_streetPrefix">Префикс улицы:</label>
-                <input type="text" id="create_streetPrefix" name="префикс_улицы" placeholder="Введите префикс улицы">
+                <input type="text" id="create_streetPrefix" name="префикс_улицы" >
 
                 <label for="create_street">Улица:</label>
-                <input type="text" id="create_street" name="улица" placeholder="Введите улицу">
+                <input type="text" id="create_street" name="улица" >
 
                 <label for="create_house">Дом:</label>
-                <input type="text" id="create_house" name="дом" placeholder="Введите номер дома">
+                <input type="text" id="create_house" name="дом" >
 
                 <label for="create_room">Помещение:</label>
-                <input type="text" id="create_room" name="помещение" placeholder="Введите помещение">
+                <input type="text" id="create_room" name="помещение" >
 
                 <label for="create_phoneNumber">Номер телефона:</label>
-                <input type="text" id="create_phoneNumber" name="номер_телефона" placeholder="Введите номер телефона">
+                <input type="text" id="create_phoneNumber" name="номер_телефона" >
                 <button type="submit">Отправить</button>
             </form>
 
@@ -98,7 +98,7 @@
             <form id="deleteForm" onsubmit="SubmitDeleteForm(event); return false;" method="post" style="display: none;">
                 <h1>Удаление Местоположения</h1>
                 <label for="delete_AllocationId">ID местоположения:</label>
-                <input type="text" id="delete_AllocationId" name="ид_местоположения" placeholder="Введите ID местоположения для удаления">
+                <input type="text" id="delete_AllocationId" name="ид_местоположения" >
                 <button type="submit">Отправить</button>
             </form>
         </div>

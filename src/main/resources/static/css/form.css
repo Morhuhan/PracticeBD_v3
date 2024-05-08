@@ -260,6 +260,8 @@ button[type="button"]:hover {
     left: 50%;
     transform: translate(-50%, -50%);
     width: 80%;
+    max-height: 80vh;
+    overflow-y: auto;
     background-color: white;
     padding: 20px;
     border-radius: 5px;
@@ -267,7 +269,6 @@ button[type="button"]:hover {
     z-index: 1000;
 }
 
-/* Стили для таблицы внутри модального окна */
 .modal .table {
     width: 100%;
     border-collapse: collapse;
@@ -285,11 +286,12 @@ button[type="button"]:hover {
     font-weight: bold;
 }
 
-/* Стили для строк таблицы при наведении */
 .modal .table tr:hover {
     background-color: #e0e0e0;
     cursor: pointer;
 }
+
+/* СТИЛИ ДЛЯ НАВИГАЦИОННОЙ ПАНЕЛИ */
 
 #navigationPanel {
     margin-bottom: 20px;
@@ -302,9 +304,6 @@ button[type="button"]:hover {
 #navigationPanel button.active {
     background-color: blue;
 }
-
-
-
 
 /* СТИЛИ ДЛЯ СТРАНИЦЫ СОЗДАНИЯ НАКЛАДНОЙ */
 #container3 {

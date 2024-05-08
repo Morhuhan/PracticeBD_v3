@@ -21,7 +21,7 @@
     <!-- Выбор количества строк на странице -->
     <div>
         <label for="itemsPerPage">Строк на странице:</label>
-        <select id="itemsPerPage" onchange="UpdateNavigationPanel(); GetPageFromTable(currentPage);">
+        <select id="itemsPerPage" onchange="UpdateNavigationPanel(); GetPageFromTable(1);">
             <option value="5">5</option>
             <option value="10">10</option>
             <option value="15">15</option>
@@ -55,13 +55,13 @@
             <form id="createForm" onsubmit="SubmitCreateForm(event); return false;" method="post">
                 <h1>Создание Типа Оборудования</h1>
                 <label for="create_category">Категория:</label>
-                <input type="text" id="create_category" name="категория" placeholder="Введите категорию">
+                <input type="text" id="create_category" name="категория" >
 
                 <label for="create_name">Наименование:</label>
-                <input type="text" id="create_name" name="наименование" placeholder="Введите наименование">
+                <input type="text" id="create_name" name="наименование" >
 
                 <label for="create_characteristic">Характеристика:</label>
-                <input type="text" id="create_characteristic" name="характеристика" placeholder="Введите характеристику">
+                <input type="text" id="create_characteristic" name="характеристика" >
                 <button type="submit">Отправить</button>
             </form>
 
@@ -86,7 +86,7 @@
             <form id="deleteForm" onsubmit="SubmitDeleteForm(event); return false;" method="post" style="display: none;">
                 <h1>Удаление Типа Оборудования</h1>
                 <label for="delete_category">ID типа оборудования:</label>
-                <input type="text" id="delete_category" name="ид_типа_оборудования" placeholder="Введите ID типа оборудования для удаления">
+                <input type="text" id="delete_category" name="ид_типа_оборудования">
                 <button type="submit">Отправить</button>
             </form>
 
