@@ -21,27 +21,32 @@ public class DAO {
         this.jdbcTemplate = jdbcTemplate;
     }
 
-    public List<JsonNode> getDataFromTable(JsonNode jsonNode) throws DataAccessException {
+    public List<String> getDataFromTable(JsonNode jsonNode) throws DataAccessException {
         String sql = "SELECT * FROM получить_страницу_из_таблицы(?::jsonb)";
         String jsonText = jsonNode.toString();
-        return jdbcTemplate.query(sql, new JsonNodeRowMapper(), jsonText);
+        return jdbcTemplate.queryForList(sql, String.class, jsonText);
     }
 
-    public List<JsonNode> getAllRecordsFromTable(String tableName) throws DataAccessException {
-        String sql = "SELECT * FROM GetAllRecords(?)";
-        return jdbcTemplate.query(sql, new JsonNodeRowMapper(), tableName);
-    }
-
-    public JsonNode getExpandedData(JsonNode jsonNode) throws DataAccessException {
-        String jsonText = jsonNode.toString();
-        String sql = "SELECT * FROM получить_дополнительные_данные(?::jsonb)";
-        return jdbcTemplate.queryForObject(sql, new JsonNodeRowMapper(), jsonText);
-    }
-
-    public JsonNode addDataToTable(String tableName, JsonNode jsonNode) throws DataAccessException  {
+    public String addDataToTable(String tableName, JsonNode jsonNode) throws DataAccessException  {
         String jsonString = jsonNode.toString();
         String sql = "SELECT * FROM добавить_запись_в_таблицу(?, ?::jsonb)";
-        return jdbcTemplate.queryForObject(sql, new JsonNodeRowMapper(), tableName, jsonString);
+        return jdbcTemplate.queryForObject(sql, String.class, tableName, jsonString);
+    }
+
+    public List<String> getAllRecordsFromTable(String tableName) throws DataAccessException {
+        String sql = "SELECT * FROM GetAllRecords(?)";
+        return jdbcTemplate.queryForList(sql, String.class, tableName);
+    }
+
+    public String getExpandedData(JsonNode jsonNode) throws DataAccessException {
+        String jsonText = jsonNode.toString();
+        String sql = "SELECT * FROM получить_дополнительные_данные(?::jsonb)";
+        return jdbcTemplate.queryForObject(sql, String.class, jsonText);
+    }
+
+    public int getDataCountFromTable(String tableName) throws DataAccessException {
+        String sql = "SELECT получить_количество_записей(?)";
+        return jdbcTemplate.queryForObject(sql, Integer.class, tableName);
     }
 
     public void editDataToTable(String tableName, JsonNode jsonNode) throws DataAccessException {
@@ -56,8 +61,4 @@ public class DAO {
         jdbcTemplate.update(sql, tableName, jsonString);
     }
 
-    public int getDataCountFromTable(String tableName) throws DataAccessException {
-        String sql = "SELECT получить_количество_записей(?)";
-        return jdbcTemplate.queryForObject(sql, Integer.class, tableName);
-    }
 }

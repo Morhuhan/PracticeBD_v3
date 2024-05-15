@@ -1,5 +1,4 @@
 body {
-
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
@@ -199,6 +198,17 @@ button[type="button"]:hover {
     background-color: #45a049;
 }
 
+.radioContainer {
+    display: flex;
+    flex-direction: row;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.radioContainer input {
+    margin-left: 10px;
+}
+
 /* Стили для формы изменения */
 #editForm {
     display: none;
@@ -239,9 +249,7 @@ button[type="button"]:hover {
 }
 
 
-#navigationPanel {
-    margin-top: 10px;
-}
+
 
 /* Стили для модального окна */
 .modal-backdrop {
@@ -295,6 +303,7 @@ button[type="button"]:hover {
 
 #navigationPanel {
     margin-bottom: 20px;
+    margin-top: 10px;
 }
 
 #navigationPanel button {

@@ -31,13 +31,13 @@ public class MainRestController {
 
     @PostMapping("/getPage")
     public ResponseEntity<?> getData(@RequestBody JsonNode jsonNode) {
-        List<JsonNode> data = dao.getDataFromTable(jsonNode);
+        List<String> data = dao.getDataFromTable(jsonNode);
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
     @PostMapping("/getAllRecords/{tableName}")
     public ResponseEntity<?> getAllRecords(@PathVariable("tableName") String tableName) {
-        List<JsonNode> data = dao.getAllRecordsFromTable(tableName);
+        List<String> data = dao.getAllRecordsFromTable(tableName);
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
@@ -51,14 +51,14 @@ public class MainRestController {
     @PostMapping("/getExpandedData")
     public ResponseEntity<?> getExpandedData(
             @RequestBody JsonNode jsonNode) {
-        JsonNode data = dao.getExpandedData(jsonNode);
+        String data = dao.getExpandedData(jsonNode);
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 
     @PostMapping("/addData/{tableName}")
     public ResponseEntity<?> addData(@RequestBody JsonNode jsonNode,
                                      @PathVariable("tableName") String tableName) {
-        JsonNode data = dao.addDataToTable(tableName, jsonNode);
+        String data = dao.addDataToTable(tableName, jsonNode);
         return new ResponseEntity<>(data, HttpStatus.OK);
     }
 

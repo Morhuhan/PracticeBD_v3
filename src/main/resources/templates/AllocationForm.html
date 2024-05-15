@@ -54,8 +54,14 @@
             <!-- Форма создания для Местоположение -->
             <form id="createForm" onsubmit="SubmitCreateForm(event); return false;" method="post">
                 <h1>Создание Местоположения</h1>
-                <label for="create_streetPrefix">Префикс улицы:</label>
-                <input type="text" id="create_streetPrefix" name="префикс_улицы" >
+
+                <label id="prefLabel">Префикс улицы:</label>
+                <div class="radioContainer">
+                    <input type="radio" id="create_streetPrefix_avenue" name="префикс_улицы" value="проспект" >
+                    <label for="create_streetPrefix_avenue">Проспект</label>
+                    <input type="radio" id="create_streetPrefix_street" name="префикс_улицы" value="улица" checked>
+                    <label for="create_streetPrefix_street">Улица</label>
+                </div>
 
                 <label for="create_street">Улица:</label>
                 <input type="text" id="create_street" name="улица" >
@@ -77,8 +83,13 @@
                 <label for="edit_AllocationId">ID местоположения:</label>
                 <input type="text" id="edit_AllocationId" name="ид_местоположения">
 
-                <label for="edit_streetPrefix">Префикс улицы:</label>
-                <input type="text" id="edit_streetPrefix" name="префикс_улицы">
+                <label id="edit_prefLabel">Префикс улицы:</label>
+                <div class="radioContainer">
+                    <input type="radio" id="edit_streetPrefix_avenue" name="префикс_улицы" value="проспект" >
+                    <label for="create_streetPrefix_avenue">Проспект</label>
+                    <input type="radio" id="edit_streetPrefix_street" name="префикс_улицы" value="улица" checked>
+                    <label for="create_streetPrefix_street">Улица</label>
+                </div>
 
                 <label for="edit_street">Улица:</label>
                 <input type="text" id="edit_street" name="улица">

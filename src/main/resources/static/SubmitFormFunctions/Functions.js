@@ -503,10 +503,11 @@ function DataSourceCreateModal(data, element) {
     // Создаем тело таблицы
     var tbody = document.createElement('tbody');
 
-    // Проверяем, что data содержит массив объектов
+    // Проверяем, что data содержит массив JSON строк
     if (Array.isArray(data) && data.length > 0) {
-        // Добавляем строки в таблицу
-        data.forEach(function(item) {
+        // Парсим каждую JSON строку в объект и добавляем строки в таблицу
+        data.forEach(function(jsonString) {
+            var item = JSON.parse(jsonString); // Парсим JSON строку в объект
             var row = document.createElement('tr');
 
             columnsOrder.forEach(function(column) {
