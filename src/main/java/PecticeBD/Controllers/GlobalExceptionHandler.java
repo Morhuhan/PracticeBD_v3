@@ -20,6 +20,7 @@ public class GlobalExceptionHandler {
         sqlErrorMessages.put("23503", "Нарушение ограничения целостности данных (foreign key).");
         sqlErrorMessages.put("23502", "Нарушение ограничения NOT NULL.");
         sqlErrorMessages.put("23514", "Нарушение ограничения проверки (check constraint).");
+        sqlErrorMessages.put("42501", "Нет прав на редактирование таблицы");
     }
 
     @ExceptionHandler(PSQLException.class)
