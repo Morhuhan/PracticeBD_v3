@@ -29,6 +29,8 @@
             <option value="100" selected>100</option>
         </select>
     </div>
+
+    <h1> Управление Местоположениями </h1>
 </header>
 
 <div id="submenu" onmouseover="toggleMenu('block')" onmouseout="toggleMenu('none')">
@@ -55,12 +57,11 @@
             <form id="createForm" onsubmit="SubmitCreateForm(event); return false;" method="post">
                 <h1>Создание Местоположения</h1>
 
-                <label id="prefLabel">Префикс улицы:</label>
                 <div class="radioContainer">
-                    <input type="radio" id="create_streetPrefix_avenue" name="префикс_улицы" value="проспект" >
                     <label for="create_streetPrefix_avenue">Проспект</label>
-                    <input type="radio" id="create_streetPrefix_street" name="префикс_улицы" value="улица" checked>
+                    <input type="radio" id="create_streetPrefix_avenue" name="префикс_улицы" value="проспект" >
                     <label for="create_streetPrefix_street">Улица</label>
+                    <input type="radio" id="create_streetPrefix_street" name="префикс_улицы" value="улица" checked>
                 </div>
 
                 <label for="create_street">Улица:</label>
@@ -83,12 +84,11 @@
                 <label for="edit_AllocationId">ID местоположения:</label>
                 <input type="text" id="edit_AllocationId" name="ид_местоположения">
 
-                <label id="edit_prefLabel">Префикс улицы:</label>
                 <div class="radioContainer">
-                    <input type="radio" id="edit_streetPrefix_avenue" name="префикс_улицы" value="проспект" >
                     <label for="create_streetPrefix_avenue">Проспект</label>
-                    <input type="radio" id="edit_streetPrefix_street" name="префикс_улицы" value="улица" checked>
+                    <input type="radio" id="edit_streetPrefix_avenue" name="префикс_улицы" value="проспект" >
                     <label for="create_streetPrefix_street">Улица</label>
+                    <input type="radio" id="edit_streetPrefix_street" name="префикс_улицы" value="улица" checked>
                 </div>
 
                 <label for="edit_street">Улица:</label>

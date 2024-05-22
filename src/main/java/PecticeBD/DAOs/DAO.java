@@ -1,6 +1,5 @@
 package PecticeBD.DAOs;
 
-import PecticeBD.RowMappers.JsonNodeRowMapper;
 import com.fasterxml.jackson.databind.JsonNode;
 import lombok.Getter;
 import lombok.Setter;

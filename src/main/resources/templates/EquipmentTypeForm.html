@@ -29,6 +29,8 @@
             <option value="100" selected>100</option>
         </select>
     </div>
+
+    <h1> Управление Типами Оборудования </h1>
 </header>
 
 <div id="submenu" onmouseover="toggleMenu('block')" onmouseout="toggleMenu('none')">
@@ -53,9 +55,24 @@
         <div id="forms">
             <!-- Форма создания для Тип Оборудования -->
             <form id="createForm" onsubmit="SubmitCreateForm(event); return false;" method="post">
+
                 <h1>Создание Типа Оборудования</h1>
                 <label for="create_category">Категория:</label>
-                <input type="text" id="create_category" name="категория" >
+                <select id="create_category" name="категория">
+                    <option value="монитор">монитор</option>
+                    <option value="принтер">принтер</option>
+                    <option value="системный блок">системный блок</option>
+                    <option value="материнская плата">материнская плата</option>
+                    <option value="процессор">процессор</option>
+                    <option value="сетевая карта">сетевая карта</option>
+                    <option value="модуль памяти">модуль памяти</option>
+                    <option value="ЖМД">ЖМД</option>
+                    <option value="ГМД">ГМД</option>
+                    <option value="привод CD">привод CD</option>
+                    <option value="привод DVD">привод DVD</option>
+                    <option value="видеокарта">видеокарта</option>
+                    <option value="прочее">прочее</option>
+                </select>
 
                 <label for="create_name">Наименование:</label>
                 <input type="text" id="create_name" name="наименование" >
@@ -72,7 +89,21 @@
                 <input type="text" id="edit_equipmentTypeID" name="ид_типа_оборудования">
 
                 <label for="edit_category">Категория:</label>
-                <input type="text" id="edit_category" name="категория">
+                <select id="edit_category" name="категория">
+                    <option value="монитор">монитор</option>
+                    <option value="принтер">принтер</option>
+                    <option value="системный блок">системный блок</option>
+                    <option value="материнская плата">материнская плата</option>
+                    <option value="процессор">процессор</option>
+                    <option value="сетевая карта">сетевая карта</option>
+                    <option value="модуль памяти">модуль памяти</option>
+                    <option value="ЖМД">ЖМД</option>
+                    <option value="ГМД">ГМД</option>
+                    <option value="привод CD">привод CD</option>
+                    <option value="привод DVD">привод DVD</option>
+                    <option value="видеокарта">видеокарта</option>
+                    <option value="прочее">прочее</option>
+                </select>
 
                 <label for="edit_name">Наименование:</label>
                 <input type="text" id="edit_name" name="наименование">

@@ -29,6 +29,8 @@
             <option value="100" selected>100</option>
         </select>
     </div>
+
+    <h1> Управление Оборудованием </h1>
 </header>
 
 <div id="submenu" onmouseover="toggleMenu('block')" onmouseout="toggleMenu('none')">
@@ -64,8 +66,12 @@
                 <label for="create_inventoryNumber">Инвентарный номер:</label>
                 <input type="text" id="create_inventoryNumber" name="инвентарный_номер" >
 
-                <label for="create_condition">Признак исправности:</label>
-                <input type="text" id="create_condition" name="признак_исправности" >
+                <div class="radioContainer">
+                    <label for="create_condition_good">Исправно</label>
+                    <input type="radio" id="create_condition_good" name="признак_исправности" value="1" checked>
+                    <label for="create_condition_bad">Сломано</label>
+                    <input type="radio" id="create_condition_bad" name="признак_исправности" value="0">
+                </div>
 
                 <label for="create_note">Примечание:</label>
                 <input type="text" id="create_note" name="примечание" >
@@ -89,8 +95,12 @@
                 <label for="edit_inventoryNumber">Инвентарный номер:</label>
                 <input type="text" id="edit_inventoryNumber" name="инвентарный_номер">
 
-                <label for="edit_condition">Признак исправности:</label>
-                <input type="text" id="edit_condition" name="признак_исправности">
+                <div class="radioContainer">
+                    <label for="create_condition_good">Исправно</label>
+                    <input type="radio" id="edit_condition_good" name="признак_исправности" value="1" checked>
+                    <label for="create_condition_bad">Сломано</label>
+                    <input type="radio" id="edit_condition_bad" name="признак_исправности" value="0">
+                </div>
 
                 <label for="edit_note">Примечание:</label>
                 <input type="text" id="edit_note" name="примечание">

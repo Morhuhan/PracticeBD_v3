@@ -143,18 +143,20 @@ function GetExpandedData(cell, header) {
 function SubmitCreateForm(event) {
     event.preventDefault();
 
-    var form = document.getElementById('createForm');
-    var inputs = form.getElementsByTagName('input');
-
-    var objectData = {};
     var mainTable = document.querySelector('.mainTable');
     var tableName = mainTable.getAttribute('name');
 
-    for (var i = 0; i < inputs.length; i++) {
-        objectData[inputs[i].name] = inputs[i].value;
-    }
+    var formData = new FormData(document.getElementById('createForm'));
 
+    // Преобразование FormData в простой объект
+    var objectData = {};
+    formData.forEach(function(value, key){
+        objectData[key] = value;
+    });
+
+    // Преобразование объекта objectData в строку JSON
     var jsonData = JSON.stringify(objectData);
+
     var url = '/addData/' + encodeURIComponent(tableName);
 
     fetch(url, {
@@ -166,14 +168,17 @@ function SubmitCreateForm(event) {
     })
     .then(response => {
         if (!response.ok) {
+            // Обработка ошибки от сервера
             return response.json().then(error => {
                 throw new Error(error.error);
             });
         }
-        GetPageFromTable(currentPage, mainTable);
-        UpdateNavigationPanel();
+        // Обновление интерфейса пользователя после успешного добавления данных
+        GetPageFromTable(currentPage, mainTable); // Обновление текущей страницы таблицы
+        UpdateNavigationPanel(); // Обновление панели навигации
     })
     .catch(error => {
+        // Обработка ошибок сети или других проблем с запросом
         alert(error.message);
         console.error('There has been a problem with your fetch operation:', error);
     });
@@ -212,7 +217,7 @@ function SubmitEditForm(event) {
             });
         }
         else {
-            GetPageFromTable(currentPage); // Предполагается, что эта функция обновляет текущую страницу или таблицу
+            GetPageFromTable(currentPage);
         }
     })
     .catch(error => {
