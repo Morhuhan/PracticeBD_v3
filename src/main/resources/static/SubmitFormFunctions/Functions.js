@@ -154,6 +154,13 @@ function SubmitCreateForm(event) {
         objectData[key] = value;
     });
 
+    // Проверка наличия скрытого поля и приоритетное добавление его значения в objectData
+    var hiddenField = document.getElementById('hidden_locationId');
+    if (hiddenField) {
+        // Заменяем значение ид_местоположения на значение из скрытого поля
+        objectData['ид_местоположения'] = hiddenField.value;
+    }
+
     // Преобразование объекта objectData в строку JSON
     var jsonData = JSON.stringify(objectData);
 
@@ -198,6 +205,13 @@ function SubmitEditForm(event) {
         rowData[key] = value;
     });
 
+    // Проверка наличия скрытого поля и приоритетное добавление его значения в rowData
+    var hiddenField = document.getElementById('hidden_locationId');
+    if (hiddenField) {
+        // Заменяем значение ид_местоположения на значение из скрытого поля
+        rowData['ид_местоположения'] = hiddenField.value;
+    }
+
     // Преобразование объекта rowData в строку JSON
     var jsonString = JSON.stringify(rowData);
 
@@ -217,7 +231,7 @@ function SubmitEditForm(event) {
             });
         }
         else {
-            GetPageFromTable(currentPage);
+            GetPageFromTable(currentPage, mainTable);
         }
     })
     .catch(error => {
@@ -518,17 +532,32 @@ function DataSourceCreateModal(data, element) {
             columnsOrder.forEach(function(column) {
                 var td = document.createElement('td');
                 // Используем column для получения значения из объекта item
-                td.textContent = item[column] || ''; // Если ключа нет, вставляем пустую строку
-                td.setAttribute('data-field-name', column);
+                var trimmedColumn = column.trim(); // Убираем пробелы в начале и конце строки
+                td.textContent = item[trimmedColumn] || ''; // Если ключа нет, вставляем пустую строку
+                td.setAttribute('data-field-name', trimmedColumn);
                 row.appendChild(td);
             });
 
             // Навешиваем обработчик события onclick на каждую строку
             row.addEventListener('click', function() {
+                var additionalFields = element.getAttribute('data-columns-order');
+                var nameField = element.getAttribute('name');
+
+                if (additionalFields) {
+                    additionalFields.split(', ').forEach(function(field) {
+                        field = field.trim(); // Убираем пробелы
+                        element.dataset[field] = item[field] || ''; // Сохраняем данные в data-атрибуты
+                    });
+                }
+
+                // Скрытое свойство для основного поля
+                element.setAttribute('data-hidden-' + nameField, item[nameField.trim()] || '');
+
                 DataSourceModalRowClick(element, this);
                 var event = new Event('input', { bubbles: true });
                 element.dispatchEvent(event);
             });
+
             tbody.appendChild(row);
         });
 
@@ -577,8 +606,38 @@ function DataSourceModalRowClick(element, row) {
 
     // Проверяем, что ячейка найдена
     if (selectedCell) {
-        // Вставляем текст из ячейки в input элемент
-        element.value = selectedCell.textContent;
+        // Получаем данные атрибута data-columns-order
+        var dataAdditional = element.getAttribute('data-columns-order');
+
+        // Создаем массив из полей data-columns-order
+        var additionalFields = dataAdditional.split(',').map(field => field.trim());
+
+        // Переменная для хранения текста для основного input
+        var additionalText = '';
+
+        // Проходим по каждому дополнительному полю
+        additionalFields.forEach(field => {
+            var additionalCell = row.querySelector(`td[data-field-name="${field}"]`);
+            if (additionalCell) {
+                additionalText += additionalCell.textContent + ' ';
+            }
+        });
+
+        // Удаляем лишние пробелы в конце
+        additionalText = additionalText.trim();
+
+        // Вставляем текст из дополнительных полей в input элемент
+        element.value = additionalText;
+
+        // Создаем скрытое поле для id местоположения
+        var hiddenField = document.getElementById('hidden_locationId');
+        if (!hiddenField) {
+            hiddenField = document.createElement('input');
+            hiddenField.type = 'hidden';
+            hiddenField.id = 'hidden_locationId';
+            element.parentElement.appendChild(hiddenField);
+        }
+        hiddenField.value = selectedCell.textContent;
 
         // Закрываем модальное окно и затемнение фона
         var modal = document.querySelector('.modal');
@@ -594,5 +653,4 @@ function DataSourceModalRowClick(element, row) {
         console.error('No matching data-field-name found in the row');
     }
 }
-
 
