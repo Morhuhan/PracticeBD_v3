@@ -47,14 +47,14 @@
 <div id="container1">
     <div id="container2">
         <div id="input">
-            <button type="button" onclick="ShowDeleteForm()">Удалить</button>
+            <button type="button" id="redButton" onclick="RemoveTableRow(table)">Удалить</button>
             <button type="button" onclick="ShowEditForm()">Изменить</button>
             <button type="button" onclick="ShowCreateForm()">Создать</button>
         </div>
 
         <div id="forms">
             <!-- Форма создания для Тип Оборудования -->
-            <form id="createForm" onsubmit="SubmitCreateForm(event); return false;" method="post">
+            <form id="createForm" onsubmit="SubmitCreationForm(createForm); return false;" method="post">
 
                 <h1>Создание Типа Оборудования</h1>
                 <label for="create_category">Категория:</label>
@@ -85,8 +85,8 @@
             <!-- Форма изменения для Тип Оборудования -->
             <form id="editForm" onsubmit="SubmitEditForm(event); return false;" method="post" style="display: none;">
                 <h1>Изменение Типа Оборудования</h1>
-                <label for="edit_equipmentTypeID">ID типа оборудования:</label>
-                <input type="text" id="edit_equipmentTypeID" name="ид_типа_оборудования">
+
+                <input type="text" id="edit_equipmentTypeID" name="ид_типа_оборудования" hidden>
 
                 <label for="edit_category">Категория:</label>
                 <select id="edit_category" name="категория">
@@ -112,15 +112,6 @@
                 <input type="text" id="edit_characteristic" name="характеристика">
                 <button type="submit">Отправить</button>
             </form>
-
-            <!-- Форма удаления для Тип Оборудования -->
-            <form id="deleteForm" onsubmit="SubmitDeleteForm(event); return false;" method="post" style="display: none;">
-                <h1>Удаление Типа Оборудования</h1>
-                <label for="delete_category">ID типа оборудования:</label>
-                <input type="text" id="delete_category" name="ид_типа_оборудования">
-                <button type="submit">Отправить</button>
-            </form>
-
         </div>
     </div>
 

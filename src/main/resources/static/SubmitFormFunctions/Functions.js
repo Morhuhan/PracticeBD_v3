@@ -1,13 +1,19 @@
 document.addEventListener('DOMContentLoaded', function() {
+
     var mainTable = document.querySelector('.mainTable');
-    UpdateNavigationPanel();
-    GetPageFromTable(1);
-    AddSortingToTableHeaders(mainTable);
-    AttachDataSourceRowClick();
+
+    GetPageFromTable(1).then(() => {
+        UpdateNavigationPanel();
+        AddSortingToTableHeaders(mainTable);
+        AttachDataSourceRowClick();
+        AttachSelectAbility(mainTable);
+    })
+
 });
 
 function AddRowToTable(jsonRow, table) {
     var jsonData = (typeof jsonRow === 'string') ? JSON.parse(jsonRow) : jsonRow;
+    console.log('jsonData:', jsonData);  // выводим весь JSON объект
     var tableBody = table.querySelector('tbody');
     var headers = table.querySelectorAll('th');
     var row = tableBody.insertRow();
@@ -17,7 +23,17 @@ function AddRowToTable(jsonRow, table) {
         var cell = row.insertCell();
         // Используем атрибут 'name' заголовка для получения значения из jsonData
         var jsonFieldName = header.getAttribute('name');
-        var value = jsonData[jsonFieldName] || '';
+        console.log('jsonFieldName:', jsonFieldName);  // вывод отладочной информации
+
+        var value = jsonData[jsonFieldName];
+        console.log('value:', value);  // вывод отладочной информации
+
+        // Обработка случая, если ключ не найден в jsonData
+        if (value === undefined || value === null) {
+            console.error(`Поле ${jsonFieldName} не найдено в jsonData`);
+            value = '';  // устанавливаем значение по умолчанию
+        }
+
         cell.textContent = value;
 
         // Проверяем наличие атрибута 'data-expanded-source'
@@ -48,7 +64,7 @@ function GetPageFromTable(pageNumber) {
         itemsperpage: itemsPerPage
     };
 
-    fetch('/getPage', {
+    return fetch('/getPage', {  // Добавлено "return"
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
@@ -66,7 +82,7 @@ function GetPageFromTable(pageNumber) {
     .then(result => {
         if (result.length === 0 && currentPage > 1) {
             currentPage -= 1;
-            GetPageFromTable(currentPage);
+            return GetPageFromTable(currentPage);
         } else {
             result.forEach(jsonRow => {
                 AddRowToTable(jsonRow, mainTable);
@@ -140,32 +156,50 @@ function GetExpandedData(cell, header) {
     });
 }
 
-function SubmitCreateForm(event) {
-    event.preventDefault();
-
+function SubmitCreationForm(form) {
     var mainTable = document.querySelector('.mainTable');
     var tableName = mainTable.getAttribute('name');
 
-    var formData = new FormData(document.getElementById('createForm'));
-
-    // Преобразование FormData в простой объект
+    // Создаем объект для хранения данных формы
     var objectData = {};
-    formData.forEach(function(value, key){
-        objectData[key] = value;
+
+    // Получаем все инпуты и selectы в форме
+    var inputs = form.querySelectorAll('input');
+    var selects = form.querySelectorAll('select');
+
+    inputs.forEach(function(input) {
+        var name = input.getAttribute('name');
+
+        if (!input.hasAttribute('data-source')) {
+            // Если атрибута data-source нет, берем значение атрибута name и значение инпута
+            objectData[name] = input.value;
+        } else {
+            // Если атрибут data-source есть, берем значение из атрибута data-name
+            var dataName = input.getAttribute('data-' + name);
+            objectData[name] = dataName;
+        }
     });
 
-    // Проверка наличия скрытого поля и приоритетное добавление его значения в objectData
-    var hiddenField = document.getElementById('hidden_locationId');
-    if (hiddenField) {
-        // Заменяем значение ид_местоположения на значение из скрытого поля
-        objectData['ид_местоположения'] = hiddenField.value;
-    }
+    selects.forEach(function(select) {
+        var name = select.getAttribute('name');
+
+        if (!select.hasAttribute('data-source')) {
+            // Если атрибута data-source нет, берем значение атрибута name и выбранное значение select
+            objectData[name] = select.value;
+        } else {
+            // Если атрибут data-source есть, берем значение из атрибута data-name
+            var dataName = select.getAttribute('data-' + name);
+            objectData[name] = dataName;
+        }
+    });
 
     // Преобразование объекта objectData в строку JSON
     var jsonData = JSON.stringify(objectData);
 
+    // Формируем URL
     var url = '/addData/' + encodeURIComponent(tableName);
 
+    // Отправляем запрос на сервер
     fetch(url, {
         method: 'POST',
         headers: {
@@ -204,13 +238,6 @@ function SubmitEditForm(event) {
     formData.forEach(function(value, key){
         rowData[key] = value;
     });
-
-    // Проверка наличия скрытого поля и приоритетное добавление его значения в rowData
-    var hiddenField = document.getElementById('hidden_locationId');
-    if (hiddenField) {
-        // Заменяем значение ид_местоположения на значение из скрытого поля
-        rowData['ид_местоположения'] = hiddenField.value;
-    }
 
     // Преобразование объекта rowData в строку JSON
     var jsonString = JSON.stringify(rowData);
@@ -350,13 +377,12 @@ function UpdateNavigationPanel() {
 }
 
 function TableRowClick() {
-    var cells = this.cells; // Получаем ячейки текущей строки
+    var cells = this.cells; // Получаем ячейки текущей строки
     var mainTable = document.querySelector('.mainTable');
     var columns = mainTable.getElementsByTagName('th'); // Получаем колонки таблицы
 
-    // Получаем формы для редактирования и удаления
+    // Получаем форму для редактирования
     var editForm = document.getElementById("editForm");
-    var deleteForm = document.getElementById("deleteForm");
 
     // Заполняем input элементы в форме редактирования
     Array.from(editForm.querySelectorAll("input")).forEach(function(input) {
@@ -366,30 +392,19 @@ function TableRowClick() {
         if (cellIndex !== -1) {
             // Проверяем наличие атрибута data-value у ячейки
             var cellValue = cells[cellIndex].hasAttribute('data-value') ? cells[cellIndex].getAttribute('data-value') : cells[cellIndex].textContent;
-            input.value = cellValue;
+
+            if (input.type === 'radio') {
+                // Для радиокнопок устанавливаем checked, если значение совпадает
+                if (input.value === cellValue) {
+                    input.checked = true;
+                } else {
+                    input.checked = false;
+                }
+            } else {
+                input.value = cellValue;
+            }
         }
     });
-
-    // Заполняем input элементы в форме удаления
-    Array.from(deleteForm.querySelectorAll("input")).forEach(function(input) {
-        var fieldName = input.name;
-        var column = Array.from(columns).find(th => th.getAttribute("name") === fieldName);
-        var cellIndex = Array.from(columns).indexOf(column);
-        if (cellIndex !== -1) {
-            // Проверяем наличие атрибута data-value у ячейки
-            var cellValue = cells[cellIndex].hasAttribute('data-value') ? cells[cellIndex].getAttribute('data-value') : cells[cellIndex].textContent;
-            input.value = cellValue;
-        }
-    });
-
-    // Убираем выделение со всех строк таблицы
-    var tableRows = document.querySelectorAll('.mainTable tr');
-    tableRows.forEach(function(otherRow) {
-        otherRow.classList.remove("selected");
-    });
-
-    // Добавляем класс "selected" к текущей строке, чтобы выделить её
-    this.classList.add("selected");
 }
 
 function AddSortingToTableHeaders(table) {
@@ -629,16 +644,6 @@ function DataSourceModalRowClick(element, row) {
         // Вставляем текст из дополнительных полей в input элемент
         element.value = additionalText;
 
-        // Создаем скрытое поле для id местоположения
-        var hiddenField = document.getElementById('hidden_locationId');
-        if (!hiddenField) {
-            hiddenField = document.createElement('input');
-            hiddenField.type = 'hidden';
-            hiddenField.id = 'hidden_locationId';
-            element.parentElement.appendChild(hiddenField);
-        }
-        hiddenField.value = selectedCell.textContent;
-
         // Закрываем модальное окно и затемнение фона
         var modal = document.querySelector('.modal');
         var backdrop = document.querySelector('.modal-backdrop');
@@ -654,3 +659,86 @@ function DataSourceModalRowClick(element, row) {
     }
 }
 
+function AttachSelectAbility(table) {
+    // Проверяем, что table действительно является элементом DOM
+    if (!(table instanceof HTMLElement)) {
+        throw new Error("Переданный аргумент не является элементом DOM");
+    }
+
+    // Добавляем обработчик события клика на tbody таблицы
+    const tbody = table.querySelector('tbody');
+    if (!tbody) {
+        throw new Error("Таблица не содержит элемента tbody");
+    }
+
+    tbody.addEventListener('click', function(event) {
+        // Ищем строку (tr), по которой был совершён клик
+        let targetRow = event.target.closest('tr');
+
+        // Если строки нет, выходим из функции
+        if (!targetRow) return;
+
+        // Удаляем класс selected со всех строк в tbody
+        document.querySelectorAll('tbody tr').forEach(row => row.classList.remove('selected'));
+
+        // Добавляем класс selected к строке, по которой кликнули
+        targetRow.classList.add('selected');
+    });
+}
+
+function RemoveTableRow(table) {
+    // Находим строку с классом 'selected'
+    const selectedRow = table.querySelector('tr.selected');
+
+    // Убедимся, что такая строка существует
+    if (!selectedRow) {
+        alert('Не выбрана строка для удаления.');
+        return;
+    }
+
+    // Перебираем все хедеры таблицы и формируем JSON
+    const headers = table.querySelectorAll('th');
+    const rowData = {};
+    headers.forEach((header, index) => {
+        const headerName = header.getAttribute('name');
+        if (headerName) {
+            if (header.hasAttribute('data-expanded-source')) {
+                rowData[headerName] = selectedRow.cells[index].getAttribute('data-value');
+            } else {
+                rowData[headerName] = selectedRow.cells[index].textContent;
+            }
+        }
+    });
+
+    // Получаем атрибут name таблицы
+    const tableName = table.getAttribute('name');
+
+    // Подтверждение удаления
+    const itemDescription = JSON.stringify(rowData, null, 2);
+    const confirmation = confirm(`Вы действительно хотите удалить следующую строку?\n${itemDescription}`);
+    if (!confirmation) {
+        return;
+    }
+
+    // Отправляем fetch запрос на удаление данных
+    fetch(`/deleteData/${tableName}`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(rowData)
+    })
+    .then(response => {
+        // Проверяем статус ответа
+        if (!response.ok) {
+            return response.json().then(errorBody => {
+                throw new Error(errorBody.error);
+            });
+        }
+        alert('Строка успешно удалена.');
+        table.deleteRow(selectedRow.rowIndex);
+    })
+    .catch((error) => {
+        alert(error.message);
+    });
+}

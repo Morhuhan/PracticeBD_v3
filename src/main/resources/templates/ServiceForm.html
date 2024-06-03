@@ -46,15 +46,16 @@
 <div id="container1">
     <div id="container2">
         <div id="input">
-            <button type="button" onclick="ShowDeleteForm()">Удалить</button>
+            <button type="button" id="redButton" onclick="RemoveTableRow(table)">Удалить</button>
             <button type="button" onclick="ShowEditForm()">Изменить</button>
             <button type="button" onclick="ShowCreateForm()">Создать</button>
         </div>
 
         <div id="forms">
             <!-- Форма создания для Обслуживание -->
-            <form id="createForm" onsubmit="SubmitCreateForm(event); return false;" method="post">
+            <form id="createForm" onsubmit="SubmitCreationForm(createForm); return false;" method="post">
                 <h1>Создание Обслуживания</h1>
+
                 <label for="create_educationalPlaceId">Учебное место:</label>
                 <input type="text" id="create_educationalPlaceId" name="ид_учебного_места"
                        data-source="Учебное_место"
@@ -80,22 +81,14 @@
             <!-- Форма изменения для Обслуживание -->
             <form id="editForm" onsubmit="SubmitEditForm(event); return false;" method="post" style="display: none;">
                 <h1>Изменение Обслуживания</h1>
-                <label for="edit_serviceForm">ID обслужиавания:</label>
-                <input type="text" id="edit_serviceForm" name="ид_обслуживания">
+
+                <input type="text" id="edit_serviceForm" name="ид_обслуживания" hidden>
 
                 <label for="edit_installationDate">Дата установки:</label>
                 <input type="date" id="edit_installationDate" name="дата_установки">
 
                 <label for="edit_removalDate">Дата снятия:</label>
                 <input type="date" id="edit_removalDate" name="дата_снятия">
-                <button type="submit">Отправить</button>
-            </form>
-
-            <!-- Форма удаления для Обслуживание -->
-            <form id="deleteForm" onsubmit="SubmitDeleteForm(event); return false;" method="post" style="display: none;">
-                <h1>Удаление Обслуживания</h1>
-                <label for="delete_serviceForm">ID обслужиавания:</label>
-                <input type="text" id="delete_serviceForm" name="ид_обслуживания">
                 <button type="submit">Отправить</button>
             </form>
         </div>

@@ -97,6 +97,14 @@ header h1 {
     cursor: pointer;
 }
 
+tr.selected {
+    background-color: #cccccc;
+}
+
+#redButton {
+    background-color: #FA8072;
+}
+
 #table thead tr th:hover {
     background-color: #b3d1ff;
     cursor: pointer;

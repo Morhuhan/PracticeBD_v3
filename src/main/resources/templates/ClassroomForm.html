@@ -47,14 +47,14 @@
 <div id="container1">
     <div id="container2">
         <div id="input">
-            <button type="button" onclick="ShowDeleteForm()">Удалить</button>
+            <button type="button" id="redButton" onclick="RemoveTableRow(table)">Удалить</button>
             <button type="button" onclick="ShowEditForm()">Изменить</button>
             <button type="button" onclick="ShowCreateForm()">Создать</button>
         </div>
 
         <div id="forms">
             <!-- Форма создания для Класс -->
-            <form id="createForm" onsubmit="SubmitCreateForm(event); return false;" method="post">
+            <form id="createForm" onsubmit="SubmitCreationForm(createForm); return false;" method="post">
                 <h1>Создание Класса</h1>
                 <label for="create_locationId">Местоположение:</label>
                 <input type="text" id="create_locationId"
@@ -81,8 +81,8 @@
             <!-- Форма изменения для Класс -->
             <form id="editForm" onsubmit="SubmitEditForm(event); return false;" method="post" style="display: none;">
                 <h1>Изменение Класса</h1>
-                <label for="edit_classroomID">ID класса:</label>
-                <input type="text" id="edit_classroomID" name="ид_класса">
+
+                <input type="text" id="edit_classroomID" name="ид_класса" hidden>
 
                 <label for="edit_locationId">Местоположение:</label>
                 <input type="text" id="edit_locationId" name="ид_местоположения"
@@ -103,14 +103,6 @@
                 <label for="edit_note">Примечание:</label>
                 <input type="text" id="edit_note" name="примечание" >
 
-                <button type="submit">Отправить</button>
-            </form>
-
-            <!-- Форма удаления для Класс -->
-            <form id="deleteForm" onsubmit="SubmitDeleteForm(event); return false;" method="post" style="display: none;">
-                <h1>Удаление Класса</h1>
-                <label for="delete_classroomId">ID класса:</label>
-                <input type="text" id="delete_classroomId" name="ид_класса" >
                 <button type="submit">Отправить</button>
             </form>
         </div>

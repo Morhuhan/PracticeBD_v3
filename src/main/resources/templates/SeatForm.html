@@ -48,7 +48,7 @@
 <div id="container1">
     <div id="container2">
         <div id="input">
-            <button type="button" onclick="ShowDeleteForm()">Удалить</button>
+            <button type="button" id="redButton" onclick="RemoveTableRow(table)">Удалить</button>
             <button type="button" onclick="ShowEditForm()">Изменить</button>
             <button type="button" onclick="ShowCreateForm()">Создать</button>
         </div>
@@ -79,17 +79,17 @@
             </form>
 
             <!-- Форма изменения для Учебное Место -->
-            <form id="editForm" onsubmit="SubmitEditForm(event); return false;" method="post" style="display: none;">
+            <form id="editForm" onsubmit="SubmitCreationForm(createForm); return false;" method="post" style="display: none;">
                 <h1>Изменение Учебного Места</h1>
+
                 <label for="edit_classId">Класс:</label>
                 <input type="text" id="edit_classId" name="ид_класса"
                        data-source="Класс"
                        data-columns-order="ид_класса, текущ_количество_мест, макс_количество_мест, кафедра, примечание"
                        autocomplete="off"
-                       readonly>
+                       readonly >
 
-                <label for="edit_educationalSeatID">Ид учебного места:</label>
-                <input type="text" id="edit_educationalSeatID" name="ид_учебного_места">
+                <input type="text" id="edit_educationalSeatID" name="ид_учебного_места" hidden>
 
                 <label for="edit_educationalPlaceNumber">Номер учебного места:</label>
                 <input type="text" id="edit_educationalPlaceNumber" name="номер_учебного_места">
@@ -105,21 +105,6 @@
                 <button type="submit">Отправить</button>
             </form>
 
-            <!-- Форма удаления для Учебное Место -->
-            <form id="deleteForm" onsubmit="SubmitDeleteForm(event); return false;" method="post" style="display: none;">
-                <h1>Удаление Учебного Места</h1>
-                <label for="delete_classId">Класс:</label>
-                <input type="text" id="delete_classId" name="ид_класса"
-                       data-source="Класс"
-                       data-columns-order="ид_класса, текущ_количество_мест, макс_количество_мест, кафедра, примечание"
-                       autocomplete="off"
-                       readonly>
-
-                <label for="delete_educationalSeatID">ID учебного места:</label>
-                <input type="text" id="delete_educationalSeatID" name="ид_учебного_места" >
-
-                <button type="submit">Отправить</button>
-            </form>
         </div>
     </div>
 

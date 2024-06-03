@@ -10,21 +10,18 @@ function toggleMenu(display) {
 
 function ShowDeleteForm() {
     document.getElementById("forms").style.display = "block";
-    document.getElementById("deleteForm").style.display = "block";
     document.getElementById("editForm").style.display = "none";
     document.getElementById("createForm").style.display = "none";
 }
 
 function ShowEditForm() {
     document.getElementById("forms").style.display = "block";
-    document.getElementById("deleteForm").style.display = "none";
     document.getElementById("editForm").style.display = "block";
     document.getElementById("createForm").style.display = "none";
 }
 
 function ShowCreateForm() {
     document.getElementById("forms").style.display = "block";
-    document.getElementById("deleteForm").style.display = "none";
     document.getElementById("editForm").style.display = "none";
     document.getElementById("createForm").style.display = "block";
 }
