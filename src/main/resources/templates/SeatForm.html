@@ -55,7 +55,7 @@
 
         <div id="forms">
             <!-- Форма создания для Учебное Место -->
-            <form id="createForm" onsubmit="SubmitCreateForm(event); return false;" method="post">
+            <form id="createForm" onsubmit="SubmitCreationForm(createForm); return false;" method="post">
                 <h1>Создание Учебного Места</h1>
                 <label for="create_classId">Класс:</label>
                 <input type="text" id="create_classId" name="ид_класса"
@@ -79,7 +79,7 @@
             </form>
 
             <!-- Форма изменения для Учебное Место -->
-            <form id="editForm" onsubmit="SubmitCreationForm(createForm); return false;" method="post" style="display: none;">
+            <form id="editForm" onsubmit="SubmitEditForm(event); return false;" method="post" style="display: none;">
                 <h1>Изменение Учебного Места</h1>
 
                 <label for="edit_classId">Класс:</label>
